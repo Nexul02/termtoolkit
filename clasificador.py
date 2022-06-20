@@ -13,14 +13,17 @@ class Clasificador:
         1. Listar directorio
         2. Crear carpeta
         3. Eliminar carpeta
-        4. Mostrar menú
-        5. Salir
+        4. Ver ruta actual
+        5. Cambiar directorio
+        6. Mostrar menú
+        7. Salir
         """
         print("****  CLASIFICADOR DE ARCHIVOS ****\n")
         print(menu)
 
         while True:
-            op = input("Introduzca una opción: ")
+            print("\nIntroduzca una opcion")
+            op = input("$ ")
             output = self.choption(op)
             if output == "break":
                 print("Saliendo de la aplicacion...")
@@ -37,19 +40,24 @@ class Clasificador:
         elif op == "3":
             return self.rmdir()
         elif op == "4":
-            return menu
+            return f"\nRuta actual: {self.current_directory()}"
         elif op == "5":
+            return self.chdir()
+        elif op == "6":
+            return menu
+        elif op == "7":
             return "break"
         else:
             return "\nOpcion invalida\n"
 
+    def current_directory(self):
+        current_dir = os.getcwd()
+        return current_dir
+
     def directory_list(self):
-        path = input("\nIntroduzca una ruta: ")
-        try:
-            current_folder = os.listdir(path)
-            return current_folder
-        except:
-            return "Ruta invalida."
+        path = self.current_directory()
+        current_folder = os.listdir(path)
+        return current_folder
 
     def mkdir(self):
         path = input("\nIngresa nombre de la carpeta a crear: ")
@@ -63,6 +71,12 @@ class Clasificador:
             return f"\nEl directorio {path} se ha eliminado con exito...\n"
         except:
             return "\nError\n"
+
+    def chdir(self):
+        print("\nIntroduzca la ruta")
+        path = input("$ ")
+        os.chdir(path)
+        return f"\n Cambiando a {path}..."
 
 
 if __name__ == '__main__':
